@@ -1,0 +1,205 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================================
+   Design tokens
+   ----------------------------------------------------------------------------
+   Two themes, one set of utility classes. Every component reads these variables
+   through Tailwind's semantic colors (bg-surface, text-ink, border-line, ...).
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  --canvas: 243 244 246;
+  --surface: 255 255 255;
+  --raised: 255 255 255;
+  --sunken: 247 248 250;
+
+  --line: 229 231 235;
+  --line-strong: 208 212 220;
+
+  --ink: 13 17 23;
+  --body: 58 67 83;
+  --muted: 106 115 131;
+  --faint: 154 162 177;
+
+  --accent: 61 53 201;
+  --accent-hover: 49 43 166;
+  --accent-soft: #eeecfd;
+  --accent-ink: 255 255 255;
+
+  --positive: 14 124 74;
+  --positive-soft: #e7f6ee;
+  --caution: 164 90 0;
+  --caution-soft: #fdf3e3;
+  --negative: 194 44 44;
+  --negative-soft: #fdeceb;
+  --info: 30 95 168;
+  --info-soft: #eaf2fc;
+
+  --grid-dot: rgba(13, 17, 23, 0.055);
+}
+
+.dark {
+  color-scheme: dark;
+
+  --canvas: 10 11 14;
+  --surface: 18 20 26;
+  --raised: 23 26 33;
+  --sunken: 14 16 21;
+
+  --line: 35 38 47;
+  --line-strong: 54 59 72;
+
+  --ink: 242 244 247;
+  --body: 194 200 212;
+  --muted: 141 149 165;
+  --faint: 98 107 123;
+
+  --accent: 139 132 255;
+  --accent-hover: 166 161 255;
+  --accent-soft: rgba(139, 132, 255, 0.14);
+  --accent-ink: 10 11 14;
+
+  --positive: 66 211 146;
+  --positive-soft: rgba(66, 211, 146, 0.14);
+  --caution: 243 183 79;
+  --caution-soft: rgba(243, 183, 79, 0.14);
+  --negative: 255 123 123;
+  --negative-soft: rgba(255, 123, 123, 0.14);
+  --info: 125 182 255;
+  --info-soft: rgba(125, 182, 255, 0.14);
+
+  --grid-dot: rgba(255, 255, 255, 0.05);
+}
+
+@layer base {
+  * {
+    @apply border-line;
+  }
+
+  html {
+    font-size: 15px;
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-canvas text-body font-sans antialiased;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'ss01';
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    @apply text-ink font-bold;
+    letter-spacing: -0.014em;
+    text-wrap: balance;
+  }
+
+  ::selection {
+    background: var(--accent-soft);
+    color: rgb(var(--accent));
+  }
+
+  :focus-visible {
+    outline: 2px solid rgb(var(--accent));
+    outline-offset: 2px;
+  }
+
+  /* Slim, theme-aware scrollbars */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--line-strong) transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: var(--line-strong);
+    border-radius: 999px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    background: var(--faint);
+    background-clip: content-box;
+  }
+
+  input,
+  select,
+  textarea,
+  button {
+    font-family: inherit;
+  }
+}
+
+@layer utilities {
+  /* Numbers that should not jitter as they change */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum';
+  }
+
+  /* Faint dot grid used behind the app shell */
+  .bg-grid {
+    background-image: radial-gradient(var(--grid-dot) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* Multi-line clamp helpers */
+  .line-clamp-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .stagger > * {
+    animation: fade-up 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .stagger > *:nth-child(1) { animation-delay: 0ms; }
+  .stagger > *:nth-child(2) { animation-delay: 35ms; }
+  .stagger > *:nth-child(3) { animation-delay: 70ms; }
+  .stagger > *:nth-child(4) { animation-delay: 105ms; }
+  .stagger > *:nth-child(5) { animation-delay: 140ms; }
+  .stagger > *:nth-child(6) { animation-delay: 175ms; }
+  .stagger > *:nth-child(7) { animation-delay: 210ms; }
+  .stagger > *:nth-child(8) { animation-delay: 245ms; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
